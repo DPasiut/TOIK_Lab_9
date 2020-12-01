@@ -21,7 +21,7 @@ public class Movie {
         this.image = movieDto.getImage();
     }
 
-    public void updateMovieData(CreateMovieDto createMovieDto){
+    public void changeParam(CreateMovieDto createMovieDto){
         this.title = createMovieDto.getTitle();
         this.year = createMovieDto.getYear();
         this.image = createMovieDto.getImage();

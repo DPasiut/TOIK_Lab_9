@@ -4,6 +4,7 @@ import com.demo.springboot.dto.CreateMovieDto;
 import com.demo.springboot.dto.MovieDto;
 import com.demo.springboot.entity.Movie;
 import com.demo.springboot.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,8 @@ import java.util.List;
 @Service
 public class MovieService implements IMovieService {
 
-    private final MovieRepository movieRepository;
-    public MovieService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+    @Autowired
+    private MovieRepository movieRepository;
 
     public ResponseEntity<List<MovieDto>> getMovieList(){
 
@@ -55,7 +54,7 @@ public class MovieService implements IMovieService {
         if (movieRepository.getById(id) == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        movieRepository.getById(id).updateMovieData(createMovieDto);
+        movieRepository.updateMovieData(id,createMovieDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

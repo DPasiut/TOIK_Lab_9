@@ -5,6 +5,7 @@ import com.demo.springboot.dto.MovieDto;
 import com.demo.springboot.service.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,8 @@ public class MovieApiController {
     private static final Logger LOG = LoggerFactory.getLogger(MovieApiController.class);
 
 
-    private final MovieService movieService;
-    public MovieApiController(MovieService movieService) {
-        this.movieService = movieService;
-    }
+    @Autowired
+    private MovieService movieService;
 
     @PostMapping("/api/movies")
     public ResponseEntity<Void> createMovie(@RequestBody MovieDto movieDto) {

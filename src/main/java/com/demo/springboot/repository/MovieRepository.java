@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -25,7 +26,7 @@ public class MovieRepository {
     }
 
     public void addMovie(MovieDto movieDto){
-        this.movies.add(new Movie(movieDto));
+        movies.add(new Movie(movieDto));
     }
 
     public Movie getById(int id){
@@ -38,6 +39,10 @@ public class MovieRepository {
 
     public List<Movie> getMovieList(){
         return this.movies;
+    }
+
+    public void updateMovieData(int id, CreateMovieDto createMovieDto){
+        Objects.requireNonNull(movies.stream().filter(movie -> movie.getMovieId() == id).findFirst().orElse(null)).changeParam(createMovieDto);
     }
 
 }
