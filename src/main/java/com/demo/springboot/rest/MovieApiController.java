@@ -16,7 +16,6 @@ import java.util.List;
 public class MovieApiController {
     private static final Logger LOG = LoggerFactory.getLogger(MovieApiController.class);
 
-
     @Autowired
     private MovieService movieService;
 
@@ -38,6 +37,7 @@ public class MovieApiController {
 
     @DeleteMapping("/api/movies/{id}")
     public ResponseEntity<Object> deleteMovie(@PathVariable("id") Integer id){
+        LOG.info("Deleting movie {}", id);
         return movieService.deleteMovie(id);
     }
 }

@@ -35,6 +35,7 @@ public class MovieService implements IMovieService {
 
         return ResponseEntity.ok().body(movieDtoList);
     }
+
     public ResponseEntity<Void> addMovie(MovieDto movieDto){
 
         if(movieDto.getImage() == "" ||
