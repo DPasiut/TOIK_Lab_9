@@ -15,10 +15,13 @@ import java.util.List;
 @Getter
 @Repository
 public class MovieRepository {
-    private List<Movie> movies;
+
+    private List<Movie> movies = new ArrayList<>();
 
     public MovieRepository(){
-        movies = new ArrayList<>();
+        movies.add(new Movie(1,"Pierwszy",2020,"image1"));
+        movies.add(new Movie(2,"Drugi",2020,"image2"));
+        movies.add(new Movie(3,"Trzeci",2020,"image3"));
     }
 
     public void addMovie(MovieDto movieDto){
@@ -30,7 +33,7 @@ public class MovieRepository {
     }
 
     public void deleteMovie(int id){
-        this.movies.remove(id);
+        this.movies.remove(movies.stream().filter(movie -> movie.getMovieId() == id).findFirst().orElse(null));
     }
 
     public List<Movie> getMovieList(){
