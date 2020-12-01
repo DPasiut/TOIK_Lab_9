@@ -3,59 +3,41 @@ package com.demo.springboot.rest;
 import com.demo.springboot.dto.CreateMovieDto;
 import com.demo.springboot.dto.MovieDto;
 import com.demo.springboot.dto.MovieListDto;
+import com.demo.springboot.service.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-@RestController
+@Controller
 public class MovieApiController {
     private static final Logger LOG = LoggerFactory.getLogger(MovieApiController.class);
 
-    private final MovieListDto movies;
 
-    public MovieApiController() {
-        List<MovieDto> moviesList = new ArrayList<>();
-        moviesList.add(new MovieDto(1,
-                "Piraci z Krzemowej Doliny",
-                1999,
-                "https://fwcdn.pl/fpo/30/02/33002/6988507.6.jpg")
-        );
-        movies = new MovieListDto(moviesList);
+    @Autowired
+    private MovieService movieService;
+
+    @PostMapping("/api/movies")
+    public ResponseEntity<Void> createMovie(@RequestBody MovieDto movieDto) {
+        return movieService.addMovie(movieDto);
     }
 
-    @GetMapping("/movies")
-    public ResponseEntity<MovieListDto> getMovies() {
-        LOG.info("--- get all movies: {}", movies);
-        return ResponseEntity.ok().body(movies);    // = new ResponseEntity<>(movies, HttpStatus.OK);
+    @GetMapping("/api/movies")
+    public MovieListDto getMovies() {
+        LOG.info("--- get all movies: ");
+        return movieService.getMovieList();
     }
 
-    @GetMapping("/movies/{id}/title/{title}")
-    public ResponseEntity<Void> getMovie(@PathVariable("id") Integer id, @PathVariable("title") String title) {
-        LOG.info("--- id: {}", id);
-        LOG.info("--- title: {}", title);
-
-        return ResponseEntity.ok().build();
+    @PutMapping("/api/movies/{id}")
+    public ResponseEntity<Object> updateMovie(@PathVariable("id") Integer id,
+                                              @RequestBody CreateMovieDto createMovieDto){
+        return movieService.updateMovie(id, createMovieDto);
     }
 
-    @PutMapping("/movies")
-    public ResponseEntity<Void> updateMovie(@RequestParam("id") Integer id, @RequestParam("title") String title) {
-        LOG.info("--- id: {}", id);
-        LOG.info("--- title: {}", title);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/movies")
-    public ResponseEntity<Void> createMovie(@RequestBody CreateMovieDto createMovieDto) throws URISyntaxException {
-        LOG.info("--- id: {}", createMovieDto.getMovieId());
-        LOG.info("--- title: {}", createMovieDto.getTitle());
-
-        return ResponseEntity.created(new URI("/movies/" + createMovieDto.getMovieId())).build();
+    @GetMapping("/api/movies/{id}")
+    public ResponseEntity<Object> deleteMovie(@PathVariable("id") Integer id){
+        return movieService.deleteMovie(id);
     }
 }

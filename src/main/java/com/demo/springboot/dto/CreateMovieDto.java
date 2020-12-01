@@ -1,17 +1,15 @@
 package com.demo.springboot.dto;
 
-public class CreateMovieDto {
-    private Integer movieId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Data
+@Getter
+
+public class CreateMovieDto{
     private String title;
-
-    public CreateMovieDto() {
-    }
-
-    public Integer getMovieId() {
-        return movieId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
+    private Integer year;
+    private String image;
 }
